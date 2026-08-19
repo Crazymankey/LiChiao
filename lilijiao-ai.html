@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>你不是不夠好，只是還沒發現而已｜李苙僑</title>
+<meta name="description" content="多數人早就具備成功的條件，只是自己還不知道。李苙僑分享學習 AI 路上，比技巧更重要的心態。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;500;700;900&family=Noto+Sans+TC:wght@300;400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#FBF8F1;
+    --paper-warm:#F6EEDA;
+    --ink:#1A1B14;
+    --ink-soft:#6E6A5A;
+    --ink-faint:#B7AF98;
+    --gold:#EFA23C;
+    --gold-deep:#C97F22;
+    --teal:#1E6B5C;
+    --teal-soft:#5C8C81;
+    --line:#E6DFC9;
+    --shadow:0 30px 70px -34px rgba(26,27,20,.28);
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+
+  body{
+    font-family:'Noto Sans TC','Noto Serif TC',serif;
+    background:var(--paper);
+    color:var(--ink);
+    -webkit-font-smoothing:antialiased;
+    height:100vh;
+    height:100svh;
+    overflow:hidden;
+  }
+  a{color:inherit;text-decoration:none;}
+
+  h1,h2{
+    font-family:'Noto Serif TC',serif;
+    font-weight:900;
+    letter-spacing:.01em;
+  }
+  .num,.eyebrow,.chip,.ring-num,.brand small,.hint{
+    font-family:'Space Grotesk','Noto Sans TC',sans-serif;
+  }
+
+  /* ---------- reveal ---------- */
+  .reveal{
+    opacity:0;
+    transform:translateY(26px);
+    transition:opacity .95s cubic-bezier(.16,.84,.44,1), transform .95s cubic-bezier(.16,.84,.44,1);
+  }
+  .reveal.in-view{opacity:1;transform:translateY(0);}
+  .reveal-delay{transition-delay:.22s;}
+  @media (prefers-reduced-motion: reduce){
+    .reveal{transition:none;opacity:1;transform:none;}
+  }
+
+  /* ---------- fullpage swipe container ---------- */
+  .snap-container{
+    height:100vh;
+    height:100svh;
+    overflow-y:scroll;
+    overflow-x:hidden;
+    scroll-snap-type:y mandatory;
+    scroll-behavior:smooth;
+    -webkit-overflow-scrolling:touch;
+    overscroll-behavior-y:contain;
+  }
+  @media (prefers-reduced-motion: reduce){
+    .snap-container{scroll-behavior:auto;}
+  }
+
+  .panel{
+    position:relative;
+    min-height:100vh;
+    min-height:100svh;
+    scroll-snap-align:start;
+    scroll-snap-stop:always;
+    overflow:hidden;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    padding:clamp(96px,15vh,150px) 7vw clamp(64px,9vh,96px);
+  }
+
+  .num-bg{
+    position:absolute;
+    top:-6vh;
+    right:-2vw;
+    z-index:0;
+    line-height:1;
+    letter-spacing:-.03em;
+    font-weight:700;
+    font-size:clamp(9rem,34vw,25rem);
+    color:rgba(30,107,92,.07);
+    white-space:nowrap;
+    pointer-events:none;
+    user-select:none;
+  }
+  .panel.finale .num-bg{color:rgba(201,127,34,.13);}
+
+  .panel-inner{
+    position:relative;
+    z-index:1;
+    max-width:620px;
+  }
+
+  .eyebrow{
+    font-size:.72rem;
+    font-weight:600;
+    letter-spacing:.34em;
+    text-transform:uppercase;
+    color:var(--teal);
+    margin-bottom:22px;
+  }
+
+  .panel-title{
+    font-size:clamp(1.7rem,4.2vw,3rem);
+    line-height:1.28;
+    color:var(--ink);
+    margin-bottom:26px;
+  }
+
+  .rule{
+    width:46px;height:3px;
+    background:var(--gold);
+    margin-bottom:30px;
+  }
+
+  .panel-body p{
+    font-size:clamp(1rem,1.6vw,1.14rem);
+    line-height:1.95;
+    color:var(--ink-soft);
+    font-weight:300;
+    margin-bottom:20px;
+    max-width:56ch;
+  }
+  .panel-body b{
+    font-weight:600;
+    color:var(--ink);
+  }
+
+  .pull{
+    margin-top:8px;
+    padding-left:22px;
+    border-left:3px solid var(--gold);
+    font-family:'Noto Serif TC',serif;
+    font-weight:700;
+    font-size:clamp(1.15rem,2.3vw,1.5rem);
+    line-height:1.6;
+    color:var(--ink);
+    max-width:44ch;
+  }
+  .pull.strong{color:var(--gold-deep);}
+
+  /* ---------- flow chips (真正是流程步驟的章節才用) ---------- */
+  .flow{
+    display:flex;
+    flex-wrap:wrap;
+    align-items:center;
+    gap:10px 6px;
+    margin:8px 0 28px;
+  }
+  .chip{
+    font-size:.86rem;
+    font-weight:600;
+    letter-spacing:.02em;
+    color:var(--teal);
+    border:1.4px solid var(--teal-soft);
+    border-radius:999px;
+    padding:9px 18px;
+    white-space:nowrap;
+  }
+  .arrow{
+    color:var(--gold-deep);
+    font-size:1.1rem;
+    font-weight:700;
+  }
+
+  /* ---------- hero (cover) ---------- */
+  .hero .num-bg{
+    font-size:clamp(8rem,30vw,20rem);
+    top:auto;
+    bottom:-8vh;
+    right:-1vw;
+  }
+  .hero .eyebrow{color:var(--gold-deep);}
+  .hero-title{
+    font-size:clamp(2.3rem,6.4vw,4.3rem);
+    line-height:1.24;
+    color:var(--ink);
+    margin-bottom:26px;
+  }
+  .hero-title .hl{
+    color:var(--gold-deep);
+    position:relative;
+    white-space:nowrap;
+  }
+  .hero-sub{
+    font-size:clamp(1rem,1.9vw,1.2rem);
+    line-height:1.9;
+    color:var(--ink-soft);
+    font-weight:400;
+    max-width:34ch;
+    margin-bottom:44px;
+  }
+  .hero-credit{
+    font-size:.86rem;
+    letter-spacing:.08em;
+    color:var(--ink-faint);
+    margin-bottom:56px;
+  }
+  .hero-hint{
+    display:inline-flex;
+    align-items:center;
+    gap:12px;
+    font-size:.74rem;
+    letter-spacing:.22em;
+    text-transform:uppercase;
+    color:var(--teal);
+  }
+  .hero-hint .dot-line{
+    width:34px;height:1px;
+    background:var(--teal-soft);
+    position:relative;
+    overflow:hidden;
+  }
+  .hero-hint .dot-line::after{
+    content:'';
+    position:absolute;
+    left:-100%;top:0;
+    width:100%;height:100%;
+    background:var(--gold);
+    animation:slide 2.4s ease-in-out infinite;
+  }
+  @keyframes slide{
+    0%{left:-100%;}
+    50%{left:100%;}
+    100%{left:100%;}
+  }
+  @media (prefers-reduced-motion: reduce){
+    .hero-hint .dot-line::after{animation:none;left:0;}
+  }
+
+  /* ---------- finale (第10章) ---------- */
+  .panel.finale{
+    background:
+      radial-gradient(circle at 82% 18%, rgba(239,162,60,.22), transparent 55%),
+      var(--paper-warm);
+  }
+  .finale-close{
+    margin-top:44px;
+    padding-top:36px;
+    border-top:1px solid var(--line);
+  }
+  .finale-close p{
+    font-family:'Noto Serif TC',serif;
+    font-weight:500;
+    font-size:clamp(1.05rem,2vw,1.28rem);
+    line-height:1.85;
+    color:var(--ink);
+    margin-bottom:10px;
+  }
+  .finale-close .last{
+    font-weight:900;
+    font-size:clamp(1.3rem,2.6vw,1.7rem);
+    color:var(--gold-deep);
+    margin-top:18px;
+  }
+  .restart{
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+    margin-top:40px;
+    font-size:.78rem;
+    letter-spacing:.18em;
+    text-transform:uppercase;
+    color:var(--teal);
+    cursor:pointer;
+    background:none;
+    border:none;
+    font-family:inherit;
+    padding:0;
+  }
+  .restart svg{width:14px;height:14px;transition:transform .3s ease;}
+  .restart:hover svg{transform:translateY(-3px);}
+
+  /* ---------- persistent chrome ---------- */
+  .brand{
+    position:fixed;
+    top:26px;left:7vw;
+    z-index:50;
+    display:flex;
+    flex-direction:column;
+    line-height:1.3;
+  }
+  .brand strong{
+    font-family:'Noto Serif TC',serif;
+    font-weight:700;
+    font-size:1rem;
+    color:var(--ink);
+  }
+  .brand small{
+    font-size:.62rem;
+    letter-spacing:.24em;
+    color:var(--ink-faint);
+    font-weight:600;
+  }
+
+  .ring-wrap{
+    position:fixed;
+    right:26px;
+    bottom:26px;
+    z-index:50;
+    width:58px;height:58px;
+    cursor:pointer;
+    background:none;
+    border:none;
+    padding:0;
+  }
+  .ring-wrap svg{width:100%;height:100%;transform:rotate(-90deg);}
+  .ring-track{fill:none;stroke:var(--line);stroke-width:3;}
+  .ring-fill{
+    fill:none;
+    stroke:var(--gold);
+    stroke-width:3;
+    stroke-linecap:round;
+    transition:stroke-dashoffset .5s cubic-bezier(.16,.84,.44,1);
+  }
+  .ring-num{
+    position:absolute;
+    inset:0;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:.8rem;
+    font-weight:700;
+    color:var(--teal);
+  }
+
+  /* ---------- responsive ---------- */
+  @media (max-width:640px){
+    .brand{top:20px;left:6vw;}
+    .brand strong{font-size:.9rem;}
+    .ring-wrap{right:18px;bottom:18px;width:48px;height:48px;}
+    .ring-num{font-size:.7rem;}
+    .panel{padding:88px 7vw 56px;}
+    .panel-body p{max-width:none;}
+    .pull{max-width:none;}
+  }
+  @media (max-height:680px){
+    .panel{padding:80px 7vw 44px;}
+    .hero-credit{margin-bottom:32px;}
+    .finale-close{margin-top:28px;padding-top:24px;}
+  }
+</style>
+</head>
+<body>
+
+<div class="brand">
+  <strong>李苙僑</strong>
+  <small>AI CREATOR</small>
+</div>
+
+<button class="ring-wrap" id="ringNav" aria-label="回到封面">
+  <svg viewBox="0 0 58 58">
+    <circle class="ring-track" cx="29" cy="29" r="25"></circle>
+    <circle class="ring-fill" id="ringFill" cx="29" cy="29" r="25"></circle>
+  </svg>
+  <span class="ring-num" id="ringNum">00</span>
+</button>
+
+<div class="snap-container" id="snapContainer">
+
+  <!-- ===== 封面 ===== -->
+  <section class="panel hero" id="p0">
+    <span class="num-bg" aria-hidden="true">AI</span>
+    <div class="panel-inner">
+      <p class="eyebrow reveal in-view">學習 AI，心態比技巧更重要</p>
+      <h1 class="hero-title reveal in-view">你不是不夠好，<br>只是<span class="hl">還沒發現</span>而已。</h1>
+      <p class="hero-sub reveal in-view reveal-delay">多數人早就具備成功的條件，只是自己還不知道。</p>
+      <p class="hero-credit reveal in-view reveal-delay">李苙僑・AI 創作者</p>
+      <div class="hero-hint reveal in-view reveal-delay">
+        <span>往下滑動</span>
+        <span class="dot-line"></span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 01 ===== -->
+  <section class="panel" id="p1">
+    <span class="num-bg" aria-hidden="true">01</span>
+    <div class="panel-inner reveal">
+      <p class="eyebrow">01</p>
+      <h2 class="panel-title">不要一開始就只想著賺錢</h2>
+      <div class="rule"></div>
+      <div class="panel-body">
+        <p>很多人學 AI，第一個想法就是：「我要趕快接案，我要趕快賺錢。」這沒有錯。</p>
+        <p>但如果一開始只抱著這個目的，很容易學到一半就放棄——因為你還不了解 AI 真正能做什麼，也還沒有真正掌握 Prompt 的核心。</p>
+        <p>遇到不懂的東西、做不出來的作品、接不到案件，就很容易開始懷疑自己，甚至覺得：「是不是我根本不適合？」</p>
+      </div>
+      <p class="pull reveal-delay reveal">其實不是。你只是還在學習的路上。</p>
+    </div>
+  </section>
+
+  <!-- ===== 02 ===== -->
+  <section class="panel" id="p2">
+    <span class="num-bg" aria-hidden="true">02</span>
+    <div class="panel-inner reveal">
+      <p class="eyebrow">02</p>
+      <h2 class="panel-title">把 AI 當成你的教練</h2>
+      <div class="rule"></div>
+      <div class="panel-body">
+        <p>我認為，現在學 AI 最大的優勢，就是你不需要一個人摸索。</p>
+        <p>不懂的問題，可以問 AI；不知道怎麼寫提案，可以讓 AI 陪你練習；不知道自己的方向在哪裡，也可以讓 AI 幫你整理、分析。甚至生活中遇到的問題，都可以利用 AI 找答案。</p>
+        <p>善用它，你可以少走很多冤枉路。</p>
+      </div>
+      <p class="pull reveal-delay reveal"><b>AI 不只是工具</b>，也可以成為你學習路上的教練。</p>
+    </div>
+  </section>
+
+  <!-- ===== 03 ===== -->
+  <section class="panel" id="p3">
+    <span class="num-bg" aria-hidden="true">03</span>
+    <div class="panel-inner reveal">
+      <p class="eyebrow">03</p>
+      <h2 class="panel-title">迷惘的時候，就去實作</h2>
+      <div class="rule"></div>
+      <div class="panel-body">
+        <p>當你真的開始懷疑自己，甚至想放棄的時候，我反而建議你：去投案件。</p>
+        <p>不是叫你一定要接到案子，而是讓市場告訴你——「我現在到底會什麼？」「我還缺什麼？」「我距離真正接案還有多遠？」「我為什麼想學 AI？」</p>
+      </div>
+      <p class="pull reveal-delay reveal">你一直學卻找不到方向；真正開始做，反而會知道下一步該往哪裡走。</p>
+    </div>
+  </section>
+
+  <!-- ===== 04 ===== -->
+  <section class="panel" id="p4">
+    <span class="num-bg" aria-hidden="true">04</span>
+    <div class="panel-inner reveal">
+      <p class="eyebrow">04</p>
+      <h2 class="panel-title">AI 真正的價值，不只是生成</h2>
+      <div class="rule"></div>
+      <div class="panel-body">
+        <p>AI 不只是幫你生成圖片、文字、影片，真正有價值的是：<b>用 AI 解決問題</b>。</p>
+      </div>
+      <div class="flow reveal-delay reveal">
+        <span class="chip">解決問題</span><span class="arrow">→</span>
+        <span class="chip">降低人力成本</span><span class="arrow">→</span>
+        <span class="chip">創造價值</span><span class="arrow">→</span>
+        <span class="chip">產生收入</span>
+      </div>
+      <div class="panel-body reveal-delay reveal">
+        <p>所以學 AI，不只是學「怎麼使用工具」，更重要的是學會：<b>怎麼利用 AI 解決問題</b>。</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 05 ===== -->
+  <section class="panel" id="p5">
+    <span class="num-bg" aria-hidden="true">05</span>
+    <div class="panel-inner reveal">
+      <p class="eyebrow">05</p>
+      <h2 class="panel-title">學 AI，不要急著跳到商業化</h2>
+      <div class="rule"></div>
+      <p class="panel-body" style="margin-bottom:0;">我認為比較適合自己的順序是：</p>
+      <div class="flow reveal-delay reveal">
+        <span class="chip">學習</span><span class="arrow">→</span>
+        <span class="chip">實作</span><span class="arrow">→</span>
+        <span class="chip">作品</span><span class="arrow">→</span>
+        <span class="chip">展示</span><span class="arrow">→</span>
+        <span class="chip">商業化</span>
+      </div>
+      <div class="panel-body reveal-delay reveal">
+        <p>先把基礎打好，再開始實作，做出自己的作品，讓別人看見你的能力，最後，再把能力轉化成收入。</p>
+      </div>
+      <p class="pull reveal-delay reveal">不要急。一步一步來，反而走得更遠。</p>
+    </div>
+  </section>
+
+  <!-- ===== 06 ===== -->
+  <section class="panel" id="p6">
+    <span class="num-bg" aria-hidden="true">06</span>
+    <div class="panel-inner reveal">
+      <p class="eyebrow">06</p>
+      <h2 class="panel-title">不要只是一直上課</h2>
+      <div class="rule"></div>
+      <div class="panel-body">
+        <p>學 AI，不是買越多課程就越厲害，也不是看越多影片，就代表自己真的會了。真正重要的是：</p>
+      </div>
+      <div class="flow reveal-delay reveal">
+        <span class="chip">學習</span><span class="arrow">＋</span>
+        <span class="chip">實作</span><span class="arrow">＋</span>
+        <span class="chip">作品</span><span class="arrow">＋</span>
+        <span class="chip">商業化</span>
+      </div>
+      <p class="pull reveal-delay reveal">學了，就要做；做了，就要留下作品；有了作品，就要讓別人看見——最後，才有機會變成真正的價值。</p>
+    </div>
+  </section>
+
+  <!-- ===== 07 ===== -->
+  <section class="panel" id="p7">
+    <span class="num-bg" aria-hidden="true">07</span>
+    <div class="panel-inner reveal">
+      <p class="eyebrow">07</p>
+      <h2 class="panel-title">最重要的，其實是自律</h2>
+      <div class="rule"></div>
+      <div class="panel-body">
+        <p>這是我現在越來越深的體會。沒有人會每天逼你學，你買再多課程，也沒有人能代替你完成，AI 再厲害，也不會自動讓你成功。</p>
+      </div>
+      <p class="pull reveal-delay reveal">真正能讓你走下去的，是：<b>自律</b>。</p>
+      <div class="panel-body reveal-delay reveal" style="margin-top:26px;">
+        <p>今天學一點，今天做一點，今天進步一點。不要因為現在還沒有看到成果，就覺得自己失敗了。</p>
+      </div>
+      <p class="pull strong reveal-delay reveal">停下來，才是真的輸。</p>
+    </div>
+  </section>
+
+  <!-- ===== 08 ===== -->
+  <section class="panel" id="p8">
+    <span class="num-bg" aria-hidden="true">08</span>
+    <div class="panel-inner reveal">
+      <p class="eyebrow">08</p>
+      <h2 class="panel-title">我現在可能還沒有成功</h2>
+      <div class="rule"></div>
+      <div class="panel-body">
+        <p>我現在可能還沒有成功。但我一直覺得，自己是一個成功的人。</p>
+      </div>
+      <p class="pull reveal-delay reveal">因為至少到現在，我還沒有放棄。</p>
+      <div class="panel-body reveal-delay reveal" style="margin-top:26px;">
+        <p>我也會迷惘，也會懷疑自己，也會有不想學的時候。但我知道，只要我還願意繼續學、繼續做、繼續往前走，就還有機會。</p>
+      </div>
+      <p class="pull strong reveal-delay reveal">自律、自律、再自律。</p>
+    </div>
+  </section>
+
+  <!-- ===== 09 ===== -->
+  <section class="panel" id="p9">
+    <span class="num-bg" aria-hidden="true">09</span>
+    <div class="panel-inner reveal">
+      <p class="eyebrow">09</p>
+      <h2 class="panel-title">這個網站，也是我想留下來的東西</h2>
+      <div class="rule"></div>
+      <div class="panel-body">
+        <p>我希望這個網站不只是分享 AI 技術，更希望它能成為一個地方，讓那些正在學 AI、正在迷惘、甚至已經準備放棄的人，重新找到一點方向。</p>
+        <p>如果你現在覺得自己學得很慢，沒關係。如果你覺得別人都比你厲害，也沒關係。如果你現在還沒有賺到錢，更沒關係。</p>
+      </div>
+      <p class="pull reveal-delay reveal">你真正需要的，不是一次成功，而是不要輕易放棄。</p>
+    </div>
+  </section>
+
+  <!-- ===== 10 · 終章 ===== -->
+  <section class="panel finale" id="p10">
+    <span class="num-bg" aria-hidden="true">10</span>
+    <div class="panel-inner reveal">
+      <p class="eyebrow">10 · 我的夢想</p>
+      <h2 class="panel-title">我的夢想</h2>
+      <div class="rule"></div>
+      <div class="panel-body">
+        <p>我叫李苙僑。我希望有一天，能夠透過 AI，讓更多人認識我，讓更多人知道：李苙僑，是一名 AI 創作者。</p>
+        <p>但我不只是想成為一個會使用 AI 的人，我更希望透過自己的學習、實作和作品，把一路走來的經驗分享給更多人——讓那些曾經迷惘的人找到方向，讓那些準備放棄的人再多堅持一下。</p>
+        <p>也讓更多普通人知道：<b>你不一定要很厲害，才有資格開始</b>。你只需要願意開始，然後不要輕易放棄。</p>
+      </div>
+
+      <div class="finale-close reveal-delay reveal">
+        <p>這就是我學習 AI 的理由，也是我想做這個網站的原因。</p>
+        <p>我是李苙僑。我正在成為一名 AI 創作者。而這條路，我還在走。</p>
+        <p class="last">但我不會放棄。</p>
+      </div>
+
+      <button class="restart" id="restartBtn">
+        回到封面
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+      </button>
+    </div>
+  </section>
+
+</div><!-- /.snap-container -->
+
+<script>
+  const snapContainer = document.getElementById('snapContainer');
+  const panels = Array.from(document.querySelectorAll('.panel'));
+  const ringFill = document.getElementById('ringFill');
+  const ringNum = document.getElementById('ringNum');
+  const ringNav = document.getElementById('ringNav');
+  const restartBtn = document.getElementById('restartBtn');
+
+  const R = 25;
+  const CIRC = 2 * Math.PI * R;
+  ringFill.style.strokeDasharray = CIRC;
+  ringFill.style.strokeDashoffset = CIRC;
+
+  function jumpTo(panel){
+    panel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+  ringNav.addEventListener('click', () => jumpTo(panels[0]));
+  restartBtn.addEventListener('click', () => jumpTo(panels[0]));
+
+  // 進度環 + 目前章節數字
+  const panelObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if(entry.isIntersecting){
+        const idx = panels.indexOf(entry.target);
+        const progress = idx / (panels.length - 1);
+        ringFill.style.strokeDashoffset = CIRC * (1 - progress);
+        ringNum.textContent = String(idx).padStart(2, '0');
+      }
+    });
+  }, { root: snapContainer, threshold: 0.6 });
+  panels.forEach(p => panelObserver.observe(p));
+
+  // 進場淡入
+  const revealEls = document.querySelectorAll('.reveal:not(.in-view)');
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if(entry.isIntersecting){
+        entry.target.classList.add('in-view');
+        io.unobserve(entry.target);
+      }
+    });
+  }, { root: snapContainer, threshold: 0.22, rootMargin: '0px 0px -6% 0px' });
+  revealEls.forEach(el => io.observe(el));
+
+  // 鍵盤上下鍵 / PageUp / PageDown 切換章節
+  document.addEventListener('keydown', (e) => {
+    if(!['ArrowDown','ArrowUp','PageDown','PageUp'].includes(e.key)) return;
+    e.preventDefault();
+    const current = panels.findIndex(p => {
+      const r = p.getBoundingClientRect();
+      return r.top > -window.innerHeight * 0.5 && r.top < window.innerHeight * 0.5;
+    });
+    const idx = current === -1 ? 0 : current;
+    if(e.key === 'ArrowDown' || e.key === 'PageDown'){
+      jumpTo(panels[Math.min(idx + 1, panels.length - 1)]);
+    } else {
+      jumpTo(panels[Math.max(idx - 1, 0)]);
+    }
+  });
+</script>
+
+</body>
+</html>
